@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from models.product_category import ProductCategory
-from models.product import Product
+from app.models.product_category import ProductCategory
+from app.models.product import Product
 
 import sys
 
