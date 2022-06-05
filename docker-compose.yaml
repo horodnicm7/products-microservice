@@ -1,0 +1,5 @@
+services:
+  products_microservice:
+    image: products-microservice
+    ports:
+      - "8090:8090"
