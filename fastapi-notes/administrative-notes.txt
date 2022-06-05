@@ -1,0 +1,5 @@
+FastAPI ofera 2 servicii de documentatie de API, pe care le poti accesa la:
+    - /docs
+    - /redoc
+
+Genereaza o schema care foloseste standardul OpenAPI, pentru a-si documenta API-ul in cele 2 rute.
