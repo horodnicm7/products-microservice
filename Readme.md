@@ -15,6 +15,6 @@ uvicorn app.controller:app --reload
 ```
 ### 2. Through docker
 ```
-# change directory to root project
+# change directory to root project. This will also build the docker images
 docker-compose up
 ```
