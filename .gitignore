@@ -1,3 +1,4 @@
 .idea/**
 products-venv/**
 **/__pycache__/**
+postgres-data/**

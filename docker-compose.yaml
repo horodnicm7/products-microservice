@@ -1,10 +1,25 @@
 services:
   products_microservice:
+    build:
+      context: ../products-microservice
+      dockerfile: ./docker/Dockerfile
     image: products-microservice
     ports:
       - "8090:8090"
-#    volumes:
-#      - app:/code/app
-#volumes:
-#  app:
-#    external: true
+    volumes:
+      - ./app:/code./app
+    depends_on:
+      - postgres_database
+
+  postgres_database:
+    image: products-database
+    build:
+      context: ../products-microservice
+      dockerfile: ./docker/Dockerfile-db
+    restart: always
+    ports:
+      - "8050:5432"
+    expose:
+      - "8050"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
