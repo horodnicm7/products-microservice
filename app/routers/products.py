@@ -16,7 +16,7 @@ def get_database_session():
     try:
         yield db
     finally:
-        db.close()
+        db.close_all()
 
 
 router = APIRouter(

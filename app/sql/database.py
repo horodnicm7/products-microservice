@@ -30,7 +30,15 @@ class Database(object):
     @staticmethod
     def engine():
         if Database._engine is None:
-            Database._engine = create_engine(Database.sqlalchemy_database_url())
+            Database._engine = create_engine(Database.sqlalchemy_database_url(),
+                                             pool_pre_ping=True,
+                                             pool_recycle=3600,  # this line might not be needed
+                                             connect_args={
+                                                 "keepalives": 1,
+                                                 "keepalives_idle": 30,
+                                                 "keepalives_interval": 10,
+                                                 "keepalives_count": 5,
+                                             })
         return Database._engine
 
     @staticmethod

@@ -3,7 +3,7 @@ FROM postgres:14.3
 WORKDIR /docker-entrypoint-initdb.d
 
 COPY ../database-scripts/init.sql /docker-entrypoint-initdb.d/init.sql
-
-RUN echo 'host all all 0.0.0.0/0 md5' >> /var/lib/postgresql/data/pg_hba.conf
-
+#USER postgres
+#RUN psql -U postgres -f /docker-entrypoint-initdb.d/init.sql
+ENV POSTGRES_HOST_AUTH_METHOD=trust
 EXPOSE 8050
