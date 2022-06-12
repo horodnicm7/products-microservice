@@ -1,8 +1,8 @@
-from decorators import Singleton
+from app.utils.decorators import Singleton
 
 
 class Configuration(object, metaclass=Singleton):
-    def __init__(self, path='../', env='dev'):
+    def __init__(self, path='/code/app', env='dev'):
         with open('{path}/config-{env}.env'.format(path=path, env=env), 'r') as file:
             for line in file.readlines():
                 entry = line.strip()

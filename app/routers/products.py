@@ -1,8 +1,23 @@
 import sys
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 from app.models.product_category import ProductCategory
 from app.models.product import Product
+from app.utils.configuration import Configuration
+from app.sql.database import Database
+
+Database.base().metadata.create_all(bind=Database.engine())
+
+
+def get_database_session():
+    db = Database.session()
+
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 router = APIRouter(
     prefix='/products',
@@ -25,5 +40,9 @@ async def get_product_by_id(product_id: int):
 
 
 @router.post('/')
-async def create_product(product: Product):
+async def create_product(product: Product, db: Session = Depends(get_database_session)):
+    db.add(product)
+    db.commit()
+    db.refresh(product)
+
     return {'product': Product}

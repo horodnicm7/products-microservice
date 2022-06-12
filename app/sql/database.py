@@ -1,30 +1,40 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from app.utils.configuration import Configuration
 
 
 class Database(object):
-    def __init__(self, config):
-        self.config = config
-        self.__create_database_connection()
+    _sqlalchemy_database_url = None
+    _engine = None
+    _session = None
+    _base = declarative_base()
+
+    _config = Configuration()
 
     @staticmethod
     def base():
-        return declarative_base()
+        return Database._base
 
-    @property
-    def session(self):
-        return self._session_local
+    @staticmethod
+    def sqlalchemy_database_url():
+        if Database._sqlalchemy_database_url is None:
+            Database._sqlalchemy_database_url = "postgresql://{user}:{password}@{host}/{database_name}".format(
+                user=Database._config.DATABASE_USER,
+                password=Database._config.DATABASE_PASSWORD,
+                host=Database._config.DATABASE_URL,
+                database_name=Database._config.DATABASE_NAME
+            )
+        return Database._sqlalchemy_database_url
 
-    def __create_database_connection(self):
-        # sqlalchemy_database_url = "postgresql://user:password@postgresserver/db"
-        sqlalchemy_database_url = "postgresql://{user}:{password}@{host}/{database_name}".format(
-            user=self.config.DATABASE_USER,
-            password=self.config.DATABASE_PASSWORD,
-            host=self.config.DATABASE_URL,
-            database_name=self.config.DATABASE_NAME
-        )
+    @staticmethod
+    def engine():
+        if Database._engine is None:
+            Database._engine = create_engine(Database.sqlalchemy_database_url())
+        return Database._engine
 
-        engine = create_engine(sqlalchemy_database_url, connect_args={"check_same_thread": False})
-
-        self._session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    @staticmethod
+    def session():
+        if Database._session is None:
+            Database._session = sessionmaker(autocommit=False, autoflush=False, bind=Database.engine())
+        return Database._session
