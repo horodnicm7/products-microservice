@@ -17,3 +17,15 @@ def create_product(db: Session, product: ProductCreate):
     db.commit()
     db.refresh(db_product)
     return db_product
+
+
+def delete_product(db: Session, product_id: int):
+    query = db.query(Product).filter(Product.id == product_id)
+    query.delete(synchronize_session=False)
+    db.commit()
+    return query
+
+
+def update_product(db: Session, product_id: int, product: ProductCreate):
+    db.query(Product).filter(Product.id == product_id).update(product.dict())
+    db.commit()

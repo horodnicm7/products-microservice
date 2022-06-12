@@ -46,3 +46,13 @@ async def get_product_by_id(product_id: int, db: Session = Depends(get_database_
 @router.post('/')
 async def create_product(product: ProductCreate, db: Session = Depends(get_database_session)):
     return crud.create_product(db, product)
+
+
+@router.put('/{product_id}')
+async def update_product(product_id: int, product: ProductCreate, db: Session = Depends(get_database_session)):
+    return crud.update_product(db, product_id, product)
+
+
+@router.delete('/{product_id}')
+async def delete_product(product_id: int, db: Session = Depends(get_database_session)):
+    return crud.delete_product(db, product_id)
