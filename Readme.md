@@ -11,7 +11,7 @@ docker build -t products-database -f docker/Dockerfile-db .
 ## How to run the application
 ### 1. On local machine
 ```
-uvicorn app.controller:app --reload
+uvicorn app.main:app --reload
 ```
 ### 2. Through docker
 ```

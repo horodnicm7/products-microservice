@@ -1,13 +1,16 @@
-from fastapi import FastAPI
+import sys
+
+from fastapi import APIRouter
 from app.models.product_category import ProductCategory
 from app.models.product import Product
 
-import sys
+router = APIRouter(
+    prefix='/products',
+    tags=['products']
+)
 
-app = FastAPI()
 
-
-@app.get('/products')
+@router.get('/')
 async def get_products(category: ProductCategory = ProductCategory.none,
                        price_start: float = 0.0,
                        price_end: float = sys.float_info.max,
@@ -16,11 +19,11 @@ async def get_products(category: ProductCategory = ProductCategory.none,
     return {'products': [category, price_start, price_end]}
 
 
-@app.get('/products/{product_id}')
+@router.get('/{product_id}')
 async def get_product_by_id(product_id: int):
     return {'product': {'id': product_id}}
 
 
-@app.post('/products/')
+@router.post('/')
 async def create_product(product: Product):
     return {'product': Product}
