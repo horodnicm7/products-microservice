@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float
 from app.sql.database import Database
+from app.schemas.product import ProductCreate
 
 
 class Product(Database.base()):
@@ -8,3 +9,8 @@ class Product(Database.base()):
     name = Column(String, unique=True, index=True)
     price = Column(Float)
     description = Column(String)
+
+    def __init__(self, product: ProductCreate):
+        self.name = product.name
+        self.price = product.price
+        self.description = product.description
