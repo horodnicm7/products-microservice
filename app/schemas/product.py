@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from typing import List
+from app.schemas.review import ReviewView
 
 
 class ProductCreate(BaseModel):
@@ -9,6 +11,7 @@ class ProductCreate(BaseModel):
 
 class ProductView(ProductCreate):
     id: int
+    reviews: List[ReviewView]
 
     class Config:
         orm_mode = True
