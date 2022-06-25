@@ -13,7 +13,7 @@ router = APIRouter(
 
 @router.get('/{product_id}/reviews')
 async def get_product_reviews(product_id: int, db: Session = Depends(dependencies.get_database_session)) -> ReviewView:
-    pass
+    return review_crud.get_reviews_by_product_id(db, product_id)
 
 
 @router.post('/{product_id}/reviews')

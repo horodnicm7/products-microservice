@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class ReviewCreate(BaseModel):
     author: str
     content: str
+    rating: int
 
 
 class ReviewView(ReviewCreate):
